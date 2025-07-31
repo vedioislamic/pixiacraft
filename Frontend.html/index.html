@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Background Color Replace</title>
+</head>
+<body>
+  <h1>Replace Background with Any Color</h1>
+  <form action="http://127.0.0.1:8000/replace-background/" method="post" enctype="multipart/form-data">
+    <label>Select Image:</label><br>
+    <input type="file" name="file" required><br><br>
+    
+    <label>Enter Background Color (e.g. white, red, #00ff00):</label><br>
+    <input type="text" name="color" required><br><br>
+    
+    <button type="submit">Replace Background</button>
+  </form>
+</body>
+</html>

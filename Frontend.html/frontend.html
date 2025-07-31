@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Text to Image - PixaiCraft</title>
+</head>
+<body>
+  <h2>Text to Image Generator</h2>
+  <form id="generate-form">
+    <input type="text" id="prompt" placeholder="Enter prompt..." required>
+    <button type="submit">Generate Image</button>
+  </form>
+
+  <div id="result">
+    <h3>Generated Image:</h3>
+    <img id="image" src="" alt="Generated image will appear here" width="512">
+  </div>
+
+  <script>
+    document.getElementById('generate-form').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const prompt = document.getElementById('prompt').value;
+
+      const formData = new FormData();
+      formData.append('prompt', prompt);
+
+      const response = await fetch('http://127.0.0.1:8000/generate', {
+        method: 'POST',
+        body: formData
+      });
+
+      const blob = await response.blob();
+      const imageURL = URL.createObjectURL(blob);
+      document.getElementById('image').src = imageURL;
+    });
+  </script>
+</body>
+</html>
