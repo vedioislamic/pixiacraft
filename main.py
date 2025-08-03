@@ -1,10 +1,7 @@
-from fastapi import FastAPI, Form
-from fastapi.responses import FileResponse
-from text2image.main import generate_image
+from fastapi import FastAPI
 
 app = FastAPI()
 
-@app.post("/generate")
-async def generate(prompt: str = Form(...)):
-    generate_image(prompt)
-    return FileResponse("output.png", media_type="image/png")
+@app.get("/")
+def read_root():
+    return {"message": "PixiaCraft Backend is Running"}
