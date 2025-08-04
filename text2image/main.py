@@ -1,13 +1,15 @@
+# text2image/main.py
 from diffusers import StableDiffusionPipeline
 import torch
 
-def generate_image(prompt):
-    pipe = StableDiffusionPipeline.from_pretrained(
-        "CompVis/stable-diffusion-v1-4",
-        torch_dtype=torch.float16,
-        use_auth_token=True  # only if required
-    )
-    pipe.to("cuda")  # use "cpu" if you don't have GPU
+# Model load karo sirf ek dafa
+pipe = StableDiffusionPipeline.from_pretrained(
+    "CompVis/stable-diffusion-v1-4",
+    torch_dtype=torch.float16,
+    revision="fp16"
+).to("cuda")
 
+def generate_image(prompt: str, output_path="output.png"):
     image = pipe(prompt).images[0]
-    image.save("output.png")
+    image.save(output_path)
+    return output_path
