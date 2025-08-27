@@ -1,40 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>PixiaCraft - Text to Image</title>
-  </head>
-  <body>
-    <h2>AI Image Generator</h2>
+<input type="text" id="prompt" placeholder="Enter your text">
+<button onclick="generateImage()">Generate</button>
+<br>
+<img id="result" />
 
-    <input type="text" id="prompt" placeholder="Enter your prompt" style="width: 300px;" />
-    <button onclick="generateImage()">Generate Image</button>
+<script>
+async function generateImage() {
+    const prompt = document.getElementById("prompt").value;
 
-    <br /><br />
-    <img id="result" style="display:none; width: 300px;" />
+    const response = await fetch("https://api.runpod.ai/v2/2jjif0wds8f3ou/run", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            input: { prompt: prompt }
+        })
+    });
 
-    <script>
-      async function generateImage() {
-        const prompt = document.getElementById("prompt").value;
-        if (!prompt) {
-          alert("Please enter a prompt.");
-          return;
-        }
-
-        const response = await fetch(
-          "https://0b25e13b31c6.ngrok-free.app/generate?prompt=" + encodeURIComponent(prompt)
-        );
-
-        if (!response.ok) {
-          alert("Error generating image");
-          return;
-        }
-
-        const blob = await response.blob();
-        const img = document.getElementById("result");
-        img.src = URL.createObjectURL(blob);
-        img.style.display = "block";
-      }
-    </script>
-  </body>
-</html>
+    const result = await response.json();
+    
+    document.getElementById("result").src = "data:image/png;base64," + result.output;
+}
+</script>
